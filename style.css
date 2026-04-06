@@ -1,0 +1,66 @@
+/* Основний контейнер */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* Корпус калькулятора */
+.calculator {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    width: 300px;
+}
+
+/* Екран (поле вводу) */
+#display {
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    text-align: right;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    background-color: #eee;
+}
+
+/* Сітка для кнопок */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1-fraction); /* 4 колонки */
+    gap: 10px;
+}
+
+/* Стиль кнопок */
+button {
+    height: 50px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+/* Особлива кнопка для "С" або "=" */
+button:nth-child(1) {
+    background-color: #ff5f56; /* Червоний для скидання */
+}
+
+button:last-child {
+    background-color: #27ae60; /* Зелений для результату */
+    grid-column: span 2; /* Робимо кнопку дошою */
+}
