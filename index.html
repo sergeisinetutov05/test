@@ -1,16 +1,18 @@
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 body {
     background: #2f3e4e;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: 'Inter', sans-serif;
 }
 
-/* Калькулятор */
 .calculator {
     background: #111;
-    padding: 20px;
+    padding: 16px;
     border-radius: 20px;
     width: 320px;
 }
@@ -19,8 +21,9 @@ body {
 .display {
     background: #2f3e4e;
     padding: 15px;
+    padding-right: 20px; /* відступ справа */
     border-radius: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     color: white;
     text-align: right;
 }
@@ -31,34 +34,60 @@ body {
 }
 
 .result {
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 36px;
+    font-weight: 600;
 }
 
-/* Кнопки */
+/* Сітка */
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
+/* Кнопки */
 button {
-    height: 60px;
-    font-size: 22px;
-    font-weight: bold;
+    height: 65px;
+    font-size: 26px; /* БІЛЬШІ цифри */
+    font-weight: 600;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
+    transition: 0.15s;
+}
+
+button:active {
+    transform: scale(0.95);
 }
 
 /* Кольори */
-.number { background: #333; color: white; }
-.operator { background: orange; color: white; }
-.equal { background: green; color: white; grid-column: span 4; }
-.clear { background: red; color: white; }
-.back { background: #555; color: white; }
+.number {
+    background: #2d2d2d;
+    color: white;
+}
 
-/* Нуль ширший */
+.operator {
+    background: #ff9500; /* єдина палітра */
+    color: white;
+}
+
+.equal {
+    background: #34c759; /* чистий зелений */
+    color: white;
+    grid-column: span 4;
+}
+
+.clear {
+    background: #ff3b30; /* чистий червоний */
+    color: white;
+}
+
+.back {
+    background: #ff9500; /* як оператор */
+    color: white;
+}
+
+/* Нуль */
 .zero {
     grid-column: span 2;
 }
@@ -102,13 +131,11 @@ let current = "";
 let prev = "";
 let operator = "";
 
-/* Ввід цифр */
 function addNum(num) {
     current += num;
     update();
 }
 
-/* Операції */
 function setOp(op) {
     if (current === "") return;
     operator = op;
@@ -117,7 +144,6 @@ function setOp(op) {
     update();
 }
 
-/* Обчислення */
 function calc() {
     if (!prev || !current) return;
 
@@ -140,7 +166,6 @@ function calc() {
     update();
 }
 
-/* Очистити */
 function clearAll() {
     current = "";
     prev = "";
@@ -149,13 +174,11 @@ function clearAll() {
     update();
 }
 
-/* Backspace */
 function backspace() {
     current = current.slice(0, -1);
     update();
 }
 
-/* Оновлення дисплею */
 function update() {
     document.getElementById("result").innerText =
         current || "0";
