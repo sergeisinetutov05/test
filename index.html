@@ -1,41 +1,163 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мій Калькулятор</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<style>
+body {
+    background: #2f3e4e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    <div class="calculator">
-        <input type="text" class="display" id="display" disabled>
-        
-        <div class="buttons">
-            <button class="btn btn-clear" onclick="clearDisplay()">C</button>
-            <button class="btn btn-op" onclick="appendToDisplay('/')">/</button>
-            <button class="btn btn-op" onclick="appendToDisplay('*')">*</button>
-            <button class="btn btn-op" onclick="appendToDisplay('-')">-</button>
-            
-            <button class="btn" onclick="appendToDisplay('7')">7</button>
-            <button class="btn" onclick="appendToDisplay('8')">8</button>
-            <button class="btn" onclick="appendToDisplay('9')">9</button>
-            <button class="btn btn-op" onclick="appendToDisplay('+')">+</button>
-            
-            <button class="btn" onclick="appendToDisplay('4')">4</button>
-            <button class="btn" onclick="appendToDisplay('5')">5</button>
-            <button class="btn" onclick="appendToDisplay('6')">6</button>
-            <button class="btn" onclick="appendToDisplay('.')">.</button>
-            
-            <button class="btn" onclick="appendToDisplay('1')">1</button>
-            <button class="btn" onclick="appendToDisplay('2')">2</button>
-            <button class="btn" onclick="appendToDisplay('3')">3</button>
-            <button class="btn" onclick="appendToDisplay('0')">0</button>
-            
-            <button class="btn btn-equal" onclick="calculate()">=</button>
-        </div>
+/* Калькулятор */
+.calculator {
+    background: #111;
+    padding: 20px;
+    border-radius: 20px;
+    width: 320px;
+}
+
+/* Дисплей */
+.display {
+    background: #2f3e4e;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: white;
+    text-align: right;
+}
+
+.history {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.result {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Кнопки */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    height: 60px;
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Кольори */
+.number { background: #333; color: white; }
+.operator { background: orange; color: white; }
+.equal { background: green; color: white; grid-column: span 4; }
+.clear { background: red; color: white; }
+.back { background: #555; color: white; }
+
+/* Нуль ширший */
+.zero {
+    grid-column: span 2;
+}
+</style>
+
+<div class="calculator">
+    <div class="display">
+        <div id="history" class="history"></div>
+        <div id="result" class="result">0</div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="buttons">
+        <button class="clear" onclick="clearAll()">C</button>
+        <button class="back" onclick="backspace()">⌫</button>
+        <button class="operator" onclick="setOp('/')">/</button>
+        <button class="operator" onclick="setOp('*')">*</button>
+
+        <button class="number" onclick="addNum(7)">7</button>
+        <button class="number" onclick="addNum(8)">8</button>
+        <button class="number" onclick="addNum(9)">9</button>
+        <button class="operator" onclick="setOp('-')">-</button>
+
+        <button class="number" onclick="addNum(4)">4</button>
+        <button class="number" onclick="addNum(5)">5</button>
+        <button class="number" onclick="addNum(6)">6</button>
+        <button class="operator" onclick="setOp('+')">+</button>
+
+        <button class="number" onclick="addNum(1)">1</button>
+        <button class="number" onclick="addNum(2)">2</button>
+        <button class="number" onclick="addNum(3)">3</button>
+        <button class="number" onclick="addNum('.')">.</button>
+
+        <button class="number zero" onclick="addNum(0)">0</button>
+
+        <button class="equal" onclick="calc()">=</button>
+    </div>
+</div>
+
+<script>
+let current = "";
+let prev = "";
+let operator = "";
+
+/* Ввід цифр */
+function addNum(num) {
+    current += num;
+    update();
+}
+
+/* Операції */
+function setOp(op) {
+    if (current === "") return;
+    operator = op;
+    prev = current;
+    current = "";
+    update();
+}
+
+/* Обчислення */
+function calc() {
+    if (!prev || !current) return;
+
+    let a = parseFloat(prev);
+    let b = parseFloat(current);
+    let res = 0;
+
+    if (operator === '+') res = a + b;
+    if (operator === '-') res = a - b;
+    if (operator === '*') res = a * b;
+    if (operator === '/') res = b !== 0 ? a / b : "Error";
+
+    document.getElementById("history").innerText =
+        prev + " " + operator + " " + current + " =";
+
+    current = res.toString();
+    prev = "";
+    operator = "";
+
+    update();
+}
+
+/* Очистити */
+function clearAll() {
+    current = "";
+    prev = "";
+    operator = "";
+    document.getElementById("history").innerText = "";
+    update();
+}
+
+/* Backspace */
+function backspace() {
+    current = current.slice(0, -1);
+    update();
+}
+
+/* Оновлення дисплею */
+function update() {
+    document.getElementById("result").innerText =
+        current || "0";
+}
+</script>
