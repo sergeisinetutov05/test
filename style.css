@@ -15,7 +15,7 @@ body {
     padding: 25px;
     border-radius: 20px; /* Сильно закруглені краї */
     box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.5); /* Глибока тінь */
-    width: 340px;
+    width: 420px;
     user-select: none; /* Щоб текст не виділявся при кліках */
 }
 
