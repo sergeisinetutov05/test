@@ -89,5 +89,5 @@ button:active {
 
 /* Нуль */
 .zero {
-    grid-column: span 3;
+    grid-column: span 4;
 }
