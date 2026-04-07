@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Calculator</title>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
@@ -10,6 +16,7 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+/* Калькулятор */
 .calculator {
     background: #111;
     padding: 20px;
@@ -17,6 +24,7 @@ body {
     width: 520px;
 }
 
+/* Дисплей */
 .display {
     background: #2f3e4e;
     padding: 15px;
@@ -30,6 +38,7 @@ body {
 .history {
     font-size: 14px;
     opacity: 0.7;
+    min-height: 18px;
 }
 
 .result {
@@ -37,6 +46,7 @@ body {
     font-weight: 600;
 }
 
+/* Кнопки */
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -50,6 +60,11 @@ button {
     border: none;
     border-radius: 12px;
     cursor: pointer;
+    transition: 0.15s;
+}
+
+button:active {
+    transform: scale(0.95);
 }
 
 .number { background: #2d2d2d; color: white; }
@@ -62,6 +77,9 @@ button {
     grid-column: span 4;
 }
 </style>
+</head>
+
+<body>
 
 <div class="calculator">
     <div class="display">
@@ -100,20 +118,35 @@ button {
 let current = "";
 let prev = "";
 let operator = "";
+let shouldReset = false;
 
+// цифри
 function addNum(num) {
+    if (shouldReset) {
+        current = "";
+        shouldReset = false;
+    }
+
     current += num;
     update();
 }
 
+// операція
 function setOp(op) {
     if (current === "") return;
+
+    if (prev !== "") {
+        calc();
+    }
+
     operator = op;
     prev = current;
-    current = "";
+    shouldReset = true;
+
     update();
 }
 
+// =
 function calc() {
     if (!prev || !current) return;
 
@@ -136,6 +169,7 @@ function calc() {
     update();
 }
 
+// очистка
 function clearAll() {
     current = "";
     prev = "";
@@ -144,41 +178,38 @@ function clearAll() {
     update();
 }
 
+// backspace
 function backspace() {
     current = current.slice(0, -1);
     update();
 }
 
+// оновлення
 function update() {
-    document.getElementById("result").innerText =
-        current || "0";
+    document.getElementById("result").innerText = current || "0";
+
+    if (prev && operator) {
+        document.getElementById("history").innerText =
+            prev + " " + operator;
+    }
 }
 
-/* ⌨️ КЛАВІАТУРА */
+// клавіатура
 document.addEventListener("keydown", function(e) {
 
-    if (e.key >= '0' && e.key <= '9') {
-        addNum(e.key);
-    }
-
-    if (e.key === '.') {
-        addNum('.');
-    }
+    if (e.key >= '0' && e.key <= '9') addNum(e.key);
+    if (e.key === '.') addNum('.');
 
     if (['+', '-', '*', '/'].includes(e.key)) {
         setOp(e.key);
     }
 
-    if (e.key === 'Enter') {
-        calc();
-    }
+    if (e.key === 'Enter') calc();
+    if (e.key === 'Backspace') backspace();
 
-    if (e.key === 'Backspace') {
-        backspace();
-    }
-
-    if (e.key === 'Escape' || e.key === 'Delete') {
-        clearAll();
-    }
+    if (e.key === 'Escape' || e.key === 'Delete') clearAll();
 });
 </script>
+
+</body>
+</html>
