@@ -5,7 +5,24 @@ function addNum(num) {
     expression += num;
     update();
 }
+function setOp(op) {
+    if (current === "") return;
 
+    operator = op;
+    prev = current;
+    shouldReset = true;
+
+    update();
+}
+function addNum(num) {
+    if (shouldReset) {
+        current = "";
+        shouldReset = false;
+    }
+
+    current += num;
+    update();
+}
 // операції
 function addOp(op) {
     if (expression === "") return;
