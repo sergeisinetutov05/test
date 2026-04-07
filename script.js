@@ -1,78 +1,109 @@
-let expression = "";
+<script>
+let current = "";
+let prev = "";
+let operator = "";
+let shouldReset = false;
 
-// цифри
+// ➕ ДОДАТИ ЦИФРУ
 function addNum(num) {
     if (shouldReset) {
         current = "";
         shouldReset = false;
     }
 
+    // не даємо писати дві крапки
+    if (num === '.' && current.includes('.')) return;
+
     current += num;
     update();
 }
+
+// ➕ ОПЕРАЦІЯ
 function setOp(op) {
-    if (current === "") return;
+    if (current === "" && prev === "") return;
+
+    // якщо вже є вираз → рахуємо одразу
+    if (prev !== "" && current !== "") {
+        calc();
+    }
 
     operator = op;
-    prev = current;
+    prev = current || prev;
     shouldReset = true;
 
     update();
 }
-// операції
-function addOp(op) {
-    if (expression === "") return;
 
-    let last = expression.slice(-1);
-
-    // якщо вже є оператор — замінюємо
-    if (['+', '-', '*', '/'].includes(last)) {
-        expression = expression.slice(0, -1);
-    }
-
-    expression += op;
-    update();
-}
-
-// =
+// ➕ РАХУВАННЯ
 function calc() {
-    try {
-        let result = eval(expression);
+    if (prev === "" || current === "") return;
 
-        document.getElementById("history").innerText = expression + " =";
-        document.getElementById("result").innerText = result;
+    let a = parseFloat(prev);
+    let b = parseFloat(current);
+    let res = 0;
 
-        expression = result.toString();
-    } catch {
-        document.getElementById("result").innerText = "Error";
+    switch(operator) {
+        case '+': res = a + b; break;
+        case '-': res = a - b; break;
+        case '*': res = a * b; break;
+        case '/': res = b !== 0 ? a / b : "Error"; break;
     }
-}
 
-// очистка
-function clearAll() {
-    expression = "";
-    document.getElementById("history").innerText = "";
-    document.getElementById("result").innerText = "0";
-}
+    document.getElementById("history").innerText =
+        prev + " " + operator + " " + current + " =";
 
-// видалити символ
-function backspace() {
-    expression = expression.slice(0, -1);
+    current = res.toString();
+    prev = "";
+    operator = "";
+    shouldReset = true;
+
     update();
 }
 
-// оновлення екрану
+// ➕ ОЧИСТКА
+function clearAll() {
+    current = "";
+    prev = "";
+    operator = "";
+    shouldReset = false;
+
+    document.getElementById("history").innerText = "";
+    update();
+}
+
+// ➕ BACKSPACE
+function backspace() {
+    if (shouldReset) return;
+
+    current = current.slice(0, -1);
+    update();
+}
+
+// ➕ ОНОВЛЕННЯ ЕКРАНУ
 function update() {
     const result = document.getElementById("result");
     const history = document.getElementById("history");
 
-    // показуємо поточне число
     result.innerText = current || "0";
 
-    // 🔥 показуємо попереднє число + оператор
     if (prev && operator) {
         history.innerText = prev + " " + operator;
-    } else {
-        history.innerText = "";
     }
 }
+
+// ⌨️ КЛАВІАТУРА
+document.addEventListener("keydown", function(e) {
+
+    if (e.key >= '0' && e.key <= '9') addNum(e.key);
+    if (e.key === '.') addNum('.');
+
+    if (['+', '-', '*', '/'].includes(e.key)) {
+        setOp(e.key);
+    }
+
+    if (e.key === 'Enter') calc();
+    if (e.key === 'Backspace') backspace();
+
+    if (e.key === 'Escape' || e.key === 'Delete') clearAll();
+});
+</script>
