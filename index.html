@@ -10,18 +10,19 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+/* Калькулятор */
 .calculator {
     background: #111;
-    padding: 16px;
+    padding: 18px;
     border-radius: 20px;
-    width: 320px;
+    width: 420px; /* ширший */
 }
 
 /* Дисплей */
 .display {
     background: #2f3e4e;
     padding: 15px;
-    padding-right: 20px; /* відступ справа */
+    padding-right: 20px;
     border-radius: 10px;
     margin-bottom: 12px;
     color: white;
@@ -34,7 +35,7 @@ body {
 }
 
 .result {
-    font-size: 36px;
+    font-size: 38px;
     font-weight: 600;
 }
 
@@ -47,8 +48,8 @@ body {
 
 /* Кнопки */
 button {
-    height: 65px;
-    font-size: 26px; /* БІЛЬШІ цифри */
+    height: 70px;
+    font-size: 28px;
     font-weight: 600;
     border: none;
     border-radius: 12px;
@@ -67,29 +68,29 @@ button:active {
 }
 
 .operator {
-    background: #ff9500; /* єдина палітра */
+    background: #ff9500;
     color: white;
 }
 
 .equal {
-    background: #34c759; /* чистий зелений */
+    background: #34c759;
     color: white;
     grid-column: span 4;
 }
 
 .clear {
-    background: #ff3b30; /* чистий червоний */
+    background: #ff3b30;
     color: white;
 }
 
 .back {
-    background: #ff9500; /* як оператор */
+    background: #ff9500;
     color: white;
 }
 
 /* Нуль */
 .zero {
-    grid-column: span 2;
+    grid-column: span 3; /* займає майже весь ряд */
 }
 </style>
 
@@ -120,6 +121,7 @@ button:active {
         <button class="number" onclick="addNum(3)">3</button>
         <button class="number" onclick="addNum('.')">.</button>
 
+        <!-- НОВИЙ НИЖНІЙ РЯД -->
         <button class="number zero" onclick="addNum(0)">0</button>
         <button class="number" onclick="addNum('.')">.</button>
 
