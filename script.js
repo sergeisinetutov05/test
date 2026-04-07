@@ -1,16 +1,17 @@
 let expression = "";
 
+// цифри
 function addNum(num) {
     expression += num;
     update();
 }
 
-function setOp(op) {
+// операції
+function addOp(op) {
     if (expression === "") return;
 
     let last = expression.slice(-1);
 
-    // не дає ставити 2 операції підряд
     if (['+', '-', '*', '/'].includes(last)) {
         expression = expression.slice(0, -1);
     }
@@ -19,6 +20,7 @@ function setOp(op) {
     update();
 }
 
+// =
 function calc() {
     try {
         let result = eval(expression);
@@ -32,17 +34,20 @@ function calc() {
     }
 }
 
+// очистка
 function clearAll() {
     expression = "";
     document.getElementById("history").innerText = "";
-    update();
+    document.getElementById("result").innerText = "0";
 }
 
+// видалити символ
 function backspace() {
     expression = expression.slice(0, -1);
     update();
 }
 
+// оновлення екрану
 function update() {
     document.getElementById("history").innerText = expression;
     document.getElementById("result").innerText = "";
