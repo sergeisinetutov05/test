@@ -2,7 +2,12 @@ let expression = "";
 
 // цифри
 function addNum(num) {
-    expression += num;
+    if (shouldReset) {
+        current = "";
+        shouldReset = false;
+    }
+
+    current += num;
     update();
 }
 function setOp(op) {
@@ -12,15 +17,6 @@ function setOp(op) {
     prev = current;
     shouldReset = true;
 
-    update();
-}
-function addNum(num) {
-    if (shouldReset) {
-        current = "";
-        shouldReset = false;
-    }
-
-    current += num;
     update();
 }
 // операції
