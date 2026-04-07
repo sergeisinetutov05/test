@@ -12,9 +12,9 @@ body {
 /* Калькулятор */
 .calculator {
     background: #111;
-    padding: 18px;
+    padding: 20px;
     border-radius: 20px;
-    width: 420px; /* прямокутний */
+    width: 620px; /* прямокутний */
 }
 
 /* Дисплей */
