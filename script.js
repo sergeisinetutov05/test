@@ -12,6 +12,7 @@ function addOp(op) {
 
     let last = expression.slice(-1);
 
+    // якщо вже є оператор — замінюємо
     if (['+', '-', '*', '/'].includes(last)) {
         expression = expression.slice(0, -1);
     }
@@ -50,5 +51,11 @@ function backspace() {
 // оновлення екрану
 function update() {
     document.getElementById("history").innerText = expression;
-    document.getElementById("result").innerText = "";
+
+    // 🔥 ГОЛОВНИЙ ФІКС
+    if (expression === "") {
+        document.getElementById("result").innerText = "0";
+    } else {
+        document.getElementById("result").innerText = expression;
+    }
 }
