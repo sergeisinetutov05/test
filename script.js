@@ -50,12 +50,16 @@ function backspace() {
 
 // оновлення екрану
 function update() {
-    document.getElementById("history").innerText = expression;
+    const result = document.getElementById("result");
+    const history = document.getElementById("history");
 
-    // 🔥 ГОЛОВНИЙ ФІКС
-    if (expression === "") {
-        document.getElementById("result").innerText = "0";
+    // показуємо поточне число
+    result.innerText = current || "0";
+
+    // 🔥 показуємо попереднє число + оператор
+    if (prev && operator) {
+        history.innerText = prev + " " + operator;
     } else {
-        document.getElementById("result").innerText = expression;
+        history.innerText = "";
     }
 }
