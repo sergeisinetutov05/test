@@ -10,15 +10,13 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* Калькулятор */
 .calculator {
     background: #111;
     padding: 20px;
     border-radius: 20px;
-    width: 620px; /* ширший */
+    width: 520px;
 }
 
-/* Дисплей */
 .display {
     background: #2f3e4e;
     padding: 15px;
@@ -39,58 +37,29 @@ body {
     font-weight: 600;
 }
 
-/* Сітка */
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
-/* Кнопки */
 button {
-    height: 70px;
+    height: 65px;
     font-size: 28px;
     font-weight: 600;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: 0.15s;
 }
 
-button:active {
-    transform: scale(0.95);
-}
+.number { background: #2d2d2d; color: white; }
+.operator { background: #ff9500; color: white; }
+.equal { background: #34c759; color: white; grid-column: span 4; }
+.clear { background: #ff3b30; color: white; }
+.back { background: #ff9500; color: white; }
 
-/* Кольори */
-.number {
-    background: #2d2d2d;
-    color: white;
-}
-
-.operator {
-    background: #ff9500;
-    color: white;
-}
-
-.equal {
-    background: #34c759;
-    color: white;
-    grid-column: span 4;
-}
-
-.clear {
-    background: #ff3b30;
-    color: white;
-}
-
-.back {
-    background: #ff9500;
-    color: white;
-}
-
-/* Нуль */
 .zero {
-    grid-column: span 4; /* займає майже весь ряд */
+    grid-column: span 3;
 }
 </style>
 
@@ -121,7 +90,6 @@ button:active {
         <button class="number" onclick="addNum(3)">3</button>
         <button class="number" onclick="addNum('.')">.</button>
 
-        <!-- НОВИЙ НИЖНІЙ РЯД -->
         <button class="number zero" onclick="addNum(0)">0</button>
 
         <button class="equal" onclick="calc()">=</button>
@@ -185,4 +153,32 @@ function update() {
     document.getElementById("result").innerText =
         current || "0";
 }
+
+/* ⌨️ КЛАВІАТУРА */
+document.addEventListener("keydown", function(e) {
+
+    if (e.key >= '0' && e.key <= '9') {
+        addNum(e.key);
+    }
+
+    if (e.key === '.') {
+        addNum('.');
+    }
+
+    if (['+', '-', '*', '/'].includes(e.key)) {
+        setOp(e.key);
+    }
+
+    if (e.key === 'Enter') {
+        calc();
+    }
+
+    if (e.key === 'Backspace') {
+        backspace();
+    }
+
+    if (e.key === 'Escape' || e.key === 'Delete') {
+        clearAll();
+    }
+});
 </script>
